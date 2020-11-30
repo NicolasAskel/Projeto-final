@@ -1,0 +1,58 @@
+const int l = 0, d = 1;
+
+int unidades[] = {0, 1, 2, 3, 4, 5, 6};
+int dezenas[] = {7, 8, 9, 10, 11, 12, 13};
+int counter = 0;
+//int analogPin = A5;
+//int val = 0;
+
+byte digito[10][7] = { 
+ { l,l,l,l,l,l,d },
+ { d,l,l,d,d,d,d },
+ { l,l,d,l,l,d,l },
+ { l,l,l,l,d,d,l },
+ { d,l,l,d,d,l,l },
+ { l,d,l,l,d,l,l },
+ { l,d,l,l,l,l,l },
+ { l,l,l,d,d,d,d },
+ { l,l,l,l,l,l,l },
+ { l,l,l,d,d,l,l }
+};
+
+const int SEGMENTOS = 7;
+const int NUMEROS = 10;
+ 
+void setup(){
+  pinMode(A5, OUTPUT);
+  for(int i = 0; i < SEGMENTOS; i++) {
+       pinMode(dezenas[i], OUTPUT);
+       pinMode(unidades[i], OUTPUT);
+    }
+}
+
+void loop() {
+  
+  for(int k = 0; k < NUMEROS; k++) {
+    acende(dezenas, k);
+    for(int i = 0; i < NUMEROS; i++) {
+      acende(unidades, i);
+      delay(50);
+    } 
+  }
+  
+}
+
+void acende(int* pino, int dig) {
+    for(int i = 0; i < SEGMENTOS; i++) {
+       digitalWrite(pino[i], digito[dig][i]);
+       counter = 0;
+    }
+    for (counter = 0; counter < 5; ++counter) {
+      digitalWrite(A5, HIGH);
+      delay(50); 
+      digitalWrite(A5, LOW);
+      delay(50);
+    }
+    delay(100); 
+    counter = 0;
+}
